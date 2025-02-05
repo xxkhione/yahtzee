@@ -16,7 +16,7 @@ namespace YahtzeeConsole
             for (int i = 0; i < numberOfRolls; i++)
             {
                 Random random = new Random();
-                diceRolls.Add(random.Next(min, max));
+                diceRolls.Add(random.Next(min, max + 1));
             }
             return diceRolls;
         }
@@ -27,7 +27,7 @@ namespace YahtzeeConsole
             for (int i = 0; i < numberOfRolls; i++)
             {
                 Random random = new Random();
-                diceRolls.Add(random.Next(min, max));
+                diceRolls.Add(random.Next(min, max + 1));
             }
             return diceRolls;
         }

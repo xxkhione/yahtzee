@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YahtzeeConsole.View
 {
@@ -10,31 +6,86 @@ namespace YahtzeeConsole.View
     {
         public static int MenuSelection()
         {
+            Console.Clear();
             Console.WriteLine("""
                     1. Start Single Player Game
                     2. Start Local Multiplayer Game
                     3. How To Play
-                    4. Quit
+                    4. Scoring Rules
+                    5. Quit
                     """);
-            return PromptForInt("Pick an option:", 1, 4);
+
+            int selection = PromptForInt("Pick an option:", 1, 5);
+
+            switch (selection)
+            {
+                case 3:
+                    HowToPlay();
+                    break;
+                case 4:
+                    ScoringRules();
+                    break;
+            }
+
+            return selection;
         }
 
         private static int PromptForInt(string prompt, int min, int max)
         {
-            bool success = false;
+            bool success;
             int response;
             do
             {
                 Console.WriteLine(prompt);
-                success = int.TryParse(Console.ReadLine(), out response);
-                success = success && response >= min && response <= max;
-
-                if(!success)
+                success = int.TryParse(Console.ReadLine(), out response) && response >= min && response <= max;
+                
+                if (!success)
                 {
                     Console.WriteLine("You entered an invalid number. Please try again.");
                 }
             } while (!success);
-            return 0;
+            return response;
+        }
+
+        private static void HowToPlay()
+        {
+            Console.Clear();
+            Console.WriteLine("\n=== How to Play Yahtzee ===");
+            Console.WriteLine("""
+                1. Each player rolls five dice up to three times per turn.
+                2. After each roll, you may keep some dice and re-roll the rest.
+                3. After rolling, you must choose a scoring category.
+                4. The game lasts 13 rounds, and each category can only be used once.
+                5. The player with the highest total score at the end wins.
+                """);
+            Console.WriteLine("\nPress Enter to return to the menu.");
+            Console.ReadLine();
+            MenuSelection();
+        }
+
+        private static void ScoringRules()
+        {
+            Console.Clear();
+            Console.WriteLine("\n=== Scoring Rules ===");
+            Console.WriteLine("""
+                Upper Section:
+                - Ones, Twos, Threes, Fours, Fives, Sixes: Sum of the chosen number.
+                - Bonus: Score 63+ points in this section for a 35-point bonus.
+
+                Lower Section:
+                - Three of a Kind: Sum of all dice if three match.
+                - Four of a Kind: Sum of all dice if four match.
+                - Full House: Three of one number + two of another (25 points).
+                - Small Straight: Four consecutive numbers (30 points).
+                - Large Straight: Five consecutive numbers (40 points).
+                - Yahtzee: Five of a kind (50 points).
+                - Chance: Sum of all dice.
+
+                Highest total score wins!
+                """);
+            Console.WriteLine("\nPress Enter to return to the menu.");
+            Console.ReadLine();
+            MenuSelection();
         }
     }
 }

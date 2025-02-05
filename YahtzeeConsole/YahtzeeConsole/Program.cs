@@ -6,7 +6,7 @@ namespace YahtzeeConsole
     {
         static void Main(string[] args)
         {
-
+            YahtzeeUI.MenuSelection();
         }
     }
 }

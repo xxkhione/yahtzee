@@ -1,4 +1,5 @@
-﻿using YahtzeeConsole.View;
+﻿using YahtzeeConsole.Controller;
+using YahtzeeConsole.View;
 
 namespace YahtzeeConsole
 {
@@ -6,7 +7,7 @@ namespace YahtzeeConsole
     {
         static void Main(string[] args)
         {
-            YahtzeeUI.MenuSelection();
+            ViewController.run();
         }
     }
 }

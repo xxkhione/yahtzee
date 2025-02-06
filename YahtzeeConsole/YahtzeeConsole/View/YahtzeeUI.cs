@@ -1,4 +1,5 @@
 ﻿using System;
+using YahtzeeConsole.Controller;
 
 namespace YahtzeeConsole.View
 {
@@ -16,17 +17,6 @@ namespace YahtzeeConsole.View
                     """);
 
             int selection = PromptForInt("Pick an option:", 1, 5);
-
-            switch (selection)
-            {
-                case 3:
-                    HowToPlay();
-                    break;
-                case 4:
-                    ScoringRules();
-                    break;
-            }
-
             return selection;
         }
 
@@ -47,7 +37,7 @@ namespace YahtzeeConsole.View
             return response;
         }
 
-        private static void HowToPlay()
+        public static void HowToPlay()
         {
             Console.Clear();
             Console.WriteLine("\n=== How to Play Yahtzee ===");
@@ -63,7 +53,7 @@ namespace YahtzeeConsole.View
             MenuSelection();
         }
 
-        private static void ScoringRules()
+        public static void ScoringRules()
         {
             Console.Clear();
             Console.WriteLine("\n=== Scoring Rules ===");
@@ -87,5 +77,23 @@ namespace YahtzeeConsole.View
             Console.ReadLine();
             MenuSelection();
         }
+
+        public static int NumberOfPlayersSelection()
+        {
+            Console.Clear();
+            Console.WriteLine("""
+                    1. 2 player
+                    2. 3 player
+                    3. 4 player
+                    4. 5 player
+                    5. 6 player
+                    6. Back to Main Menu
+                    """);
+
+            int selection = PromptForInt("Pick an option:", 1, 6);
+            Console.Clear();
+            return selection;
+        }
+
     }
 }

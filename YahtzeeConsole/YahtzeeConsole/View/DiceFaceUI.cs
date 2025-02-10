@@ -11,54 +11,43 @@ namespace ScratchConsole
     {
         public static void printDiceFace(List<int> diceRolls)
         {
-            foreach (var dice in diceRolls)
+            string[] top = new string[diceRolls.Count];
+            string[] middle = new string[diceRolls.Count];
+            string[] bottom = new string[diceRolls.Count];
+
+            for (int i = 0; i < diceRolls.Count; i++)
             {
-                Console.WriteLine(" ___ ");
-                getDiceFaceNum(dice);
-                Console.WriteLine("|___|");
-                Console.WriteLine();
+                var diceFace = getDiceFaceNum(diceRolls[i]);
+                top[i] = diceFace[0];
+                middle[i] = diceFace[1];
+                bottom[i] = diceFace[2];
             }
+            Console.WriteLine(string.Join("  ", Enumerable.Repeat(" ___ ", diceRolls.Count)));
+            Console.WriteLine(string.Join("  ", top));
+            Console.WriteLine(string.Join("  ", middle));
+            Console.WriteLine(string.Join("  ", bottom));
+            Console.WriteLine(string.Join("  ", Enumerable.Repeat("|___|", diceRolls.Count)));
+
         }
 
-        public static void getDiceFaceNum(int diceNum)
+        public static string[] getDiceFaceNum(int diceNum)
         {
             switch (diceNum)
             {
                 case 1:
-                    Console.WriteLine("|   |");
-                    Console.WriteLine("| * |");
-                    Console.WriteLine("|   |");
-                    break;
+                    return [ "|   |", "| * |", "|   |" ];
                 case 2:
-                    Console.WriteLine("|*  |");
-                    Console.WriteLine("|   |");
-                    Console.WriteLine("|  *|");
-                    break;
+                    return [ "|*  |", "|   |", "|  *|" ];
                 case 3:
-                    Console.WriteLine("|*  |");
-                    Console.WriteLine("| * |");
-                    Console.WriteLine("|  *|");
-                    break;
+                    return [ "|*  |", "| * |", "|  *|" ];
                 case 4:
-                    Console.WriteLine("|* *|");
-                    Console.WriteLine("|   |");
-                    Console.WriteLine("|* *|");
-                    break;
+                    return [ "|* *|", "|   |", "|* *|" ];
                 case 5:
-                    Console.WriteLine("|* *|");
-                    Console.WriteLine("| * |");
-                    Console.WriteLine("|* *|");
-                    break;
+                    return [ "|* *|", "| * |", "|* *|" ];
                 case 6:
-                    Console.WriteLine("|* *|");
-                    Console.WriteLine("|* *|");
-                    Console.WriteLine("|* *|");
-                    break;
-
+                    return [ "|* *|", "|* *|", "|* *|" ];
                 default:
-                    Console.WriteLine("Invalid dice number. Try again.");
-                    return;
-
+                    throw new ArgumentException("Invalid dice number");
             }
         }
     }

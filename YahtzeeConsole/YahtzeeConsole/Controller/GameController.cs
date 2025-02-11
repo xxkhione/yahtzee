@@ -49,7 +49,6 @@ namespace YahtzeeConsole.Controller
 
         public void StartRound()
         {
-            // TODO: continue game logic here
             StartPlayerTurn();
             SwitchTurns();
         }

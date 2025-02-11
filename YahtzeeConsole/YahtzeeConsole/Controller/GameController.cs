@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScratchConsole;
 using YahtzeeConsole.Model;
 
 namespace YahtzeeConsole.Controller
 {
     public class GameController
     {
-        private const int TotalRounds = 10;
+        private const int TotalRounds = 13;
+        private const int NumberOfRerolls = 3;
         private int _CurrentRound = 1;
         private List<Player> _players = new List<Player>();
         private Player _currentPlayer;
@@ -20,7 +22,7 @@ namespace YahtzeeConsole.Controller
                 _players.Add(new Player());
             }
              _currentPlayer = _players.First();
-            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call YahtzeeUI method for this
+            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call a YahtzeeUI method for this
             StartRound();
         }
 
@@ -41,17 +43,41 @@ namespace YahtzeeConsole.Controller
             {
                 _CurrentRound++;
             }
-            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call YahtzeeUI method for this
+            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call a YahtzeeUI method for this
             StartRound();
         }
 
         public void StartRound()
         {
             // TODO: continue game logic here
+            StartPlayerTurn();
             SwitchTurns();
         }
 
-        public void ReRollingDice(List<int> dices)
+
+
+        public void StartPlayerTurn()
+        {
+            List<int> dice = DiceRoller.RollDice(5); //gets initial dice roll
+            for (int i = 0; i < NumberOfRerolls; i++) { //lets player reroll their dice
+                DiceFaceUI.printDiceFace(dice);
+                dice = ReRollingDice(dice);
+            }
+            //player dice rolls for their turn are complete
+
+            // TODO: calculate score here
+
+            Console.Clear(); // TODO: call a YahtzeeUI method for all of this
+            Console.WriteLine("Here is your final dice rolls:");
+            DiceFaceUI.printDiceFace(dice);
+            Console.WriteLine("\nPress Enter to continue.");
+            Console.ReadLine();
+            Console.Clear();
+        }
+
+
+
+        public List<int> ReRollingDice(List<int> dice)
         {
             int reRoll = 0;
             List<int> diceIndexesToReRoll = new List<int>();
@@ -60,9 +86,9 @@ namespace YahtzeeConsole.Controller
             {
                 // Display the current dice with index numbers
                 Console.WriteLine("\nCurrent Dice Rolls:");
-                for (int i = 0; i < dices.Count; i++)
+                for (int i = 0; i < dice.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}: {dices[i]}");
+                    Console.WriteLine($"{i + 1}: {dice[i]}");
                 }
 
                 Console.WriteLine("\nSelect which dice to reroll. When finished, write 'done'.");
@@ -70,7 +96,7 @@ namespace YahtzeeConsole.Controller
 
                 if (input?.ToLower() == "done") break;
 
-                if (int.TryParse(input, out int index) && index >= 1 && index <= dices.Count)
+                if (int.TryParse(input, out int index) && index >= 1 && index <= dice.Count)
                 {
                     if (!diceIndexesToReRoll.Contains(index - 1))
                     {
@@ -84,7 +110,7 @@ namespace YahtzeeConsole.Controller
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. Enter a number between 1 and " + dices.Count);
+                    Console.WriteLine("Invalid input. Enter a number between 1 and " + dice.Count);
                 }
             }
 
@@ -93,14 +119,10 @@ namespace YahtzeeConsole.Controller
                 List<int> newRolls = DiceRoller.RollDice(reRoll);
                 for (int i = 0; i < diceIndexesToReRoll.Count; i++)
                 {
-                    dices[diceIndexesToReRoll[i]] = newRolls[i];
+                    dice[diceIndexesToReRoll[i]] = newRolls[i];
                 }
             }
-            Console.WriteLine("\nHere is your final dice rolls:");
-            for (int i = 0; i < dices.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}: {dices[i]}");
-            }
+            return dice;
         }
 
     }

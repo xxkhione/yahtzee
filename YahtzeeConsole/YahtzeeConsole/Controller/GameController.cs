@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ScratchConsole;
 using YahtzeeConsole.Model;
+using YahtzeeConsole.View;
 
 namespace YahtzeeConsole.Controller
 {
@@ -22,7 +23,8 @@ namespace YahtzeeConsole.Controller
                 _players.Add(new Player());
             }
              _currentPlayer = _players.First();
-            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call a YahtzeeUI method for this
+            //Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: Add a reference to this in DisplayScoreBoard
+            YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
             StartRound();
         }
 

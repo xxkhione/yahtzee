@@ -1,5 +1,6 @@
 ﻿using System;
 using YahtzeeConsole.Controller;
+using YahtzeeConsole.Model;
 
 namespace YahtzeeConsole.View
 {
@@ -95,5 +96,29 @@ namespace YahtzeeConsole.View
             return selection;
         }
 
+        public static void DisplayScoreBoard(ScoreBoard scoreBoard)
+        {
+            Console.Clear(); //Simply clears the console to move the scoreboard to the top
+            Console.WriteLine("Yahtzee ScoreBoard");
+            Console.WriteLine(new string('-', 60));
+
+            string[] topLabels = { "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes" };
+            string[] bottomLabels = { "Three of a Kind", "Four of a Kind", "Full House", "Small Straight", "Large Straight", "Yahtzee", "Chance", "Bonus Yahtzee(s)" };
+
+            for(int i = 0; i < topLabels.Length; i++)
+            {
+                string topScore = scoreBoard.TopSection[i];
+                string bottomScore = i < bottomLabels.Length ? scoreBoard.BottomSection[i] : "";
+                string bottomLabel = i < bottomLabels.Length ? bottomLabels[i] : "";
+                Console.WriteLine($"{topLabels[i]}: {topScore} | {bottomLabel}: {bottomScore}");
+            }
+            for(int i = topLabels.Length; i < bottomLabels.Length; i++)
+            {
+                string bottomScore = scoreBoard.BottomSection[i];
+                Console.WriteLine($"{bottomLabels[i]}: {bottomScore}");
+            }
+
+            Console.WriteLine(new string('-', 60));
+        }
     }
 }

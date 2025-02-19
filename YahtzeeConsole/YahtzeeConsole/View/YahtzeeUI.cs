@@ -100,25 +100,35 @@ namespace YahtzeeConsole.View
         {
             Console.Clear(); //Simply clears the console to move the scoreboard to the top
             Console.WriteLine("Yahtzee ScoreBoard");
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(new string('-', 35));
 
             string[] topLabels = { "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes" };
             string[] bottomLabels = { "Three of a Kind", "Four of a Kind", "Full House", "Small Straight", "Large Straight", "Yahtzee", "Chance", "Bonus Yahtzee(s)" };
+            int bottomSpace = 11;
 
             for(int i = 0; i < topLabels.Length; i++)
             {
                 string topScore = scoreBoard.TopSection[i];
                 string bottomScore = i < bottomLabels.Length ? scoreBoard.BottomSection[i] : "";
                 string bottomLabel = i < bottomLabels.Length ? bottomLabels[i] : "";
-                Console.WriteLine($"{topLabels[i]}: {topScore} | {bottomLabel}: {bottomScore}");
+                if (topLabels[i].Length == 4)
+                {
+                    Console.WriteLine($"{topLabels[i]}: {topScore}   | {bottomLabel}: {bottomScore}");
+                } else if (topLabels[i].Length == 5)
+                {
+                    Console.WriteLine($"{topLabels[i]}: {topScore}  | {bottomLabel}: {bottomScore}");
+                } else
+                {
+                    Console.WriteLine($"{topLabels[i]}: {topScore} | {bottomLabel}: {bottomScore}");
+                }
             }
             for(int i = topLabels.Length; i < bottomLabels.Length; i++)
             {
                 string bottomScore = scoreBoard.BottomSection[i];
-                Console.WriteLine($"{bottomLabels[i]}: {bottomScore}");
+                Console.WriteLine($"{new string(' ', bottomSpace)}| {bottomLabels[i]}: {bottomScore}");
             }
 
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(new string('-', 35));
         }
     }
 }

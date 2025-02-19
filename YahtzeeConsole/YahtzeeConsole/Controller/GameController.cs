@@ -24,7 +24,6 @@ namespace YahtzeeConsole.Controller
             }
              _currentPlayer = _players.First();
             //Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: Add a reference to this in DisplayScoreBoard
-            YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
             StartRound();
         }
 
@@ -59,6 +58,7 @@ namespace YahtzeeConsole.Controller
 
         public void StartPlayerTurn()
         {
+            YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
             List<int> dice = DiceRoller.RollDice(5); //gets initial dice roll
             for (int i = 0; i < NumberOfRerolls; i++) { //lets player reroll their dice
                 DiceFaceUI.printDiceFace(dice);

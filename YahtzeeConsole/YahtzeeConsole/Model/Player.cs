@@ -14,7 +14,7 @@ namespace YahtzeeConsole.Model
         public Player()
         {
             ScoreBoard = new ScoreBoard();
-            Score = 0;
+            Score = 200;
         }
     }
 }

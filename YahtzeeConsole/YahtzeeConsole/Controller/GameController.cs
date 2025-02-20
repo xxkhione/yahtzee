@@ -16,8 +16,10 @@ namespace YahtzeeConsole.Controller
         private int _CurrentRound = 1;
         private List<Player> _players = new List<Player>();
         private Player _currentPlayer;
+        public int totalPlayers = 0;
         public void startGame(int numberOfPlayers)
         {
+               totalPlayers = numberOfPlayers; 
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 _players.Add(new Player());
@@ -32,6 +34,12 @@ namespace YahtzeeConsole.Controller
             int currentIndex = _players.IndexOf(_currentPlayer);
             if (_CurrentRound == TotalRounds && _players.IndexOf(_currentPlayer) == _players.Count - 1)
             {
+                for( int i = 0; i < totalPlayers; i++) {
+                    _currentPlayer = (Player)_players[i];
+                   _players[1].Score = 500;
+                    _players[2].Score = 900;
+                    YahtzeeUI.FinalScore(_currentPlayer.Score, i);
+                }
                 // TODO: add final score display here
                 Console.WriteLine("\nPress Enter to return to the menu."); 
                 Console.ReadLine();
@@ -61,7 +69,9 @@ namespace YahtzeeConsole.Controller
             YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
             List<int> dice = DiceRoller.RollDice(5); //gets initial dice roll
             for (int i = 0; i < NumberOfRerolls; i++) { //lets player reroll their dice
+                Console.ForegroundColor = ConsoleColor.Green;
                 DiceFaceUI.printDiceFace(dice);
+                Console.ForegroundColor= ConsoleColor.Yellow;
                 dice = ReRollingDice(dice);
             }
             //player dice rolls for their turn are complete
@@ -127,4 +137,5 @@ namespace YahtzeeConsole.Controller
         }
 
     }
+
 }

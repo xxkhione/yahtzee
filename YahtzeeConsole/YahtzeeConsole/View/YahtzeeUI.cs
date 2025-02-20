@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using YahtzeeConsole.Controller;
 using YahtzeeConsole.Model;
-
 namespace YahtzeeConsole.View
 {
     internal class YahtzeeUI
@@ -9,14 +9,14 @@ namespace YahtzeeConsole.View
         public static int MenuSelection()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("""
-                    1. Start Single Player Game
-                    2. Start Local Multiplayer Game
-                    3. How To Play
-                    4. Scoring Rules
-                    5. Quit
-                    """);
-
+                     1. Start Single Player Game
+                     2. Start Local Multiplayer game 
+                     3. How to play
+                     4. Scoring rules 
+                     5.Quit
+                     """);
             int selection = PromptForInt("Pick an option:", 1, 5);
             return selection;
         }
@@ -98,6 +98,7 @@ namespace YahtzeeConsole.View
 
         public static void DisplayScoreBoard(ScoreBoard scoreBoard)
         {
+
             Console.Clear(); //Simply clears the console to move the scoreboard to the top
             Console.WriteLine("Yahtzee ScoreBoard");
             Console.WriteLine(new string('-', 35));
@@ -129,6 +130,11 @@ namespace YahtzeeConsole.View
             }
 
             Console.WriteLine(new string('-', 35));
+        }
+        public static void FinalScore(int score, int playerNumber)
+        {
+            int ActualPlayerNumber = playerNumber + 1;
+            Console.WriteLine("Player: " + ActualPlayerNumber + ": " + score);
         }
     }
 }

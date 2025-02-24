@@ -75,12 +75,15 @@ namespace YahtzeeConsole.Controller
                 dice = ReRollingDice(dice);
             }
             //player dice rolls for their turn are complete
-
-            // TODO: calculate score here
-
-            Console.Clear(); // TODO: call a YahtzeeUI method for all of this
+            Console.Clear();
             Console.WriteLine("Here is your final dice rolls:");
+            Console.ForegroundColor = ConsoleColor.Green;
             DiceFaceUI.printDiceFace(dice);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(_currentPlayer.PlayerScoreOptions);
+            _currentPlayer.PlayerScoreOptions.Remove(scoreOption);
+            // TODO: calculate and display score here
+
             Console.WriteLine("\nPress Enter to continue.");
             Console.ReadLine();
             Console.Clear();

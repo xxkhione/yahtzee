@@ -12,7 +12,7 @@ namespace YahtzeeConsole.Controller
 {
     public class GameController
     {
-        private const int TotalRounds = 1;
+        private const int TotalRounds = 13;
         private const int NumberOfRerolls = 3;
         private int _CurrentRound = 1;
         private List<Player> _players = new List<Player>();
@@ -167,10 +167,10 @@ namespace YahtzeeConsole.Controller
                     Console.WriteLine($"{i + 1}: {dice[i]}");
                 }
 
-                Console.WriteLine("\nSelect which dice to reroll. When finished, write 'done'.");
+                Console.WriteLine("\nSelect which dice to reroll. When finished, press enter.");
                 string input = Console.ReadLine()?.Trim();
 
-                if (input?.ToLower() == "done") break;
+                if (string.IsNullOrEmpty(input)) break;
 
                 if (int.TryParse(input, out int index) && index >= 1 && index <= dice.Count)
                 {

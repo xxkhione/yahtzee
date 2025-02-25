@@ -9,19 +9,19 @@ namespace YahtzeeConsole.View
         public static int MenuSelection()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(" ____    ____  ___       __    __  .___________.________   _______  _______ ");
             Console.WriteLine(@" \   \  /   / /   \     |  |  |  | |           |       /  |   ____||   ____|");
             Console.WriteLine(@"  \   \/   / /  ^  \    |  |__|  | `---|  |----`---/  /   |  |__   |  |__   ");
             Console.WriteLine(@"   \_    _/ /  /_\  \   |   __   |     |  |       /  /    |   __|  |   __|  ");
             Console.WriteLine(@"     |  |  /  _____  \  |  |  |  |     |  |      /  /----.|  |____ |  |____ ");
             Console.WriteLine(@"     |__| /__/     \__\ |__|  |__|     |__|     /________||_______||_______|");
-            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("""
                      1. Start Single Player Game
                      2. Start Local Multiplayer game 
                      3. How to play
                      4. Scoring rules 
-                     5.Quit
+                     5. Quit
                      """);
             int selection = PromptForInt("Pick an option:", 1, 5);
             return selection;

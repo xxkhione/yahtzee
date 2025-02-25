@@ -12,7 +12,7 @@ namespace YahtzeeConsole.Controller
 {
     public class GameController
     {
-        private const int TotalRounds = 13;
+        private const int TotalRounds = 1;
         private const int NumberOfRerolls = 3;
         private int _CurrentRound = 1;
         private List<Player> _players = new List<Player>();
@@ -28,7 +28,6 @@ namespace YahtzeeConsole.Controller
                 _players.Add(new Player());
             }
              _currentPlayer = _players.First();
-            //Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: Add a reference to this in DisplayScoreBoard
             StartRound();
         }
 
@@ -39,8 +38,6 @@ namespace YahtzeeConsole.Controller
             {
                 for( int i = 0; i < totalPlayers; i++) {
                     _currentPlayer = (Player)_players[i];
-                   _players[1].Score = 500;
-                    _players[2].Score = 900;
                     YahtzeeUI.FinalScore(_currentPlayer.Score, i);
                 }
                 // TODO: add final score display here
@@ -55,12 +52,13 @@ namespace YahtzeeConsole.Controller
             {
                 _CurrentRound++;
             }
-            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call a YahtzeeUI method for this
+            
             StartRound();
         }
 
         public void StartRound()
         {
+
             StartPlayerTurn();
             SwitchTurns();
         }
@@ -70,6 +68,7 @@ namespace YahtzeeConsole.Controller
         public void StartPlayerTurn()
         {
             YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
+            Console.WriteLine($"player: {_players.IndexOf(_currentPlayer) + 1} Round: {_CurrentRound}"); // TODO: call a YahtzeeUI method for this
             dice = DiceRoller.RollDice(5); //gets initial dice roll
             for (int i = 0; i < NumberOfRerolls; i++) { //lets player reroll their dice
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -87,7 +86,8 @@ namespace YahtzeeConsole.Controller
             ScoreOptions scoreOption = YahtzeeUI.GetScoreType(possibleScores);
             UpdateScoreBoard(possibleScores, scoreOption);
             _currentPlayer.PlayerScoreOptions.Remove(scoreOption);
-            
+
+            YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
 
             Console.WriteLine("\nPress Enter to continue.");
             Console.ReadLine();

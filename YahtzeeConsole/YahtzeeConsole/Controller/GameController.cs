@@ -84,7 +84,16 @@ namespace YahtzeeConsole.Controller
             DiceFaceUI.printDiceFace(dice);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Dictionary<ScoreOptions, int> possibleScores = GetPossibleScores();
-            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(possibleScores);
+            Dictionary<ScoreOptions, int> availableScores = new Dictionary<ScoreOptions, int>();
+            foreach(var kvp in possibleScores)
+            {
+                if (_currentPlayer.PlayerScoreOptions.Contains(kvp.Key))
+                {
+                    availableScores.Add(kvp.Key, kvp.Value);
+                }
+            }
+
+            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(availableScores);
             UpdateScoreBoard(possibleScores, scoreOption);
             _currentPlayer.PlayerScoreOptions.Remove(scoreOption);
             

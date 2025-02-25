@@ -9,6 +9,12 @@ namespace YahtzeeConsole.View
         public static int MenuSelection()
         {
             Console.Clear();
+            Console.WriteLine(" ____    ____  ___       __    __  .___________.________   _______  _______ ");
+            Console.WriteLine(@" \   \  /   / /   \     |  |  |  | |           |       /  |   ____||   ____|");
+            Console.WriteLine(@"  \   \/   / /  ^  \    |  |__|  | `---|  |----`---/  /   |  |__   |  |__   ");
+            Console.WriteLine(@"   \_    _/ /  /_\  \   |   __   |     |  |       /  /    |   __|  |   __|  ");
+            Console.WriteLine(@"     |  |  /  _____  \  |  |  |  |     |  |      /  /----.|  |____ |  |____ ");
+            Console.WriteLine(@"     |__| /__/     \__\ |__|  |__|     |__|     /________||_______||_______|");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("""
                      1. Start Single Player Game

@@ -143,24 +143,27 @@ namespace YahtzeeConsole.View
             Console.WriteLine("Player: " + ActualPlayerNumber + ": " + score);
         }
 
-        public static ScoreOptions GetScoreType(List<ScoreOptions> playerScoreOptions)
+        public static ScoreOptions GetScoreType(Dictionary<ScoreOptions, int> playerScoreOptions)
         {
+            List<ScoreOptions> availableOptions = playerScoreOptions.Where(kvp => kvp.Value > 0)
+                .Select(kvp => kvp.Key).ToList();
+
             while (true)
             {
                 Console.WriteLine("Select a score option:");
 
-                for (int i = 0; i < playerScoreOptions.Count; i++)
+                for (int i = 0; i < availableOptions.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {playerScoreOptions[i]}");
+                    Console.WriteLine($"{i + 1}. {availableOptions[i]}");
                 }
 
                 Console.Write("Enter the number of your choice: ");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out int selectedIndex) &&
-                    selectedIndex > 0 && selectedIndex <= playerScoreOptions.Count)
+                    selectedIndex > 0 && selectedIndex <= availableOptions.Count)
                 {
-                    return playerScoreOptions[selectedIndex - 1];
+                    return availableOptions[selectedIndex - 1];
                 }
 
                 Console.WriteLine("Invalid selection. Please try again.");

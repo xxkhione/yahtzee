@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ScratchConsole;
@@ -17,9 +18,11 @@ namespace YahtzeeConsole.Controller
         private List<Player> _players = new List<Player>();
         private Player _currentPlayer;
         public int totalPlayers = 0;
+        public List<int> dice = new List<int>();
+
         public void startGame(int numberOfPlayers)
         {
-               totalPlayers = numberOfPlayers; 
+            totalPlayers = numberOfPlayers; 
             for (int i = 0; i < numberOfPlayers; i++)
             {
                 _players.Add(new Player());
@@ -67,7 +70,7 @@ namespace YahtzeeConsole.Controller
         public void StartPlayerTurn()
         {
             YahtzeeUI.DisplayScoreBoard(_currentPlayer.ScoreBoard);
-            List<int> dice = DiceRoller.RollDice(5); //gets initial dice roll
+            dice = DiceRoller.RollDice(5); //gets initial dice roll
             for (int i = 0; i < NumberOfRerolls; i++) { //lets player reroll their dice
                 Console.ForegroundColor = ConsoleColor.Green;
                 DiceFaceUI.printDiceFace(dice);
@@ -80,13 +83,61 @@ namespace YahtzeeConsole.Controller
             Console.ForegroundColor = ConsoleColor.Green;
             DiceFaceUI.printDiceFace(dice);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(_currentPlayer.PlayerScoreOptions);
+            Dictionary<ScoreOptions, int> possibleScores = GetPossibleScores();
+            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(possibleScores);
+            UpdateScoreBoard(possibleScores, scoreOption);
             _currentPlayer.PlayerScoreOptions.Remove(scoreOption);
-            // TODO: calculate and display score here
+            
 
             Console.WriteLine("\nPress Enter to continue.");
             Console.ReadLine();
             Console.Clear();
+        }
+
+        public void UpdateScoreBoard(Dictionary<ScoreOptions, int> possibleScores, ScoreOptions selectedOption)
+        {
+            int score = possibleScores[selectedOption];
+
+            switch(selectedOption)
+            {
+                case ScoreOptions.ones:
+                    _currentPlayer.ScoreBoard.setAces(score.ToString());
+                    break;
+                case ScoreOptions.twos:
+                    _currentPlayer.ScoreBoard.setTwos(score.ToString());
+                    break;
+                case ScoreOptions.threes:
+                    _currentPlayer.ScoreBoard.setThrees(score.ToString());
+                    break;
+                case ScoreOptions.fours:
+                    _currentPlayer.ScoreBoard.setFours(score.ToString());
+                    break;
+                case ScoreOptions.fives:
+                    _currentPlayer.ScoreBoard.setFives(score.ToString());
+                    break;
+                case ScoreOptions.sixes:
+                    _currentPlayer.ScoreBoard.setSixes(score.ToString());
+                    break;
+                case ScoreOptions.three_of_a_kind:
+                    _currentPlayer.ScoreBoard.setThreeOfAKind(score.ToString());
+                    break;
+                case ScoreOptions.four_of_a_kind:
+                    _currentPlayer.ScoreBoard.setFourOfAKind(score.ToString());
+                    break;
+                case ScoreOptions.small_straight:
+                    _currentPlayer.ScoreBoard.setSmall(score.ToString());
+                    break;
+                case ScoreOptions.large_straight:
+                    _currentPlayer.ScoreBoard.setLarge(score.ToString());
+                    break;
+                case ScoreOptions.yahtzee:
+                    _currentPlayer.ScoreBoard.setYahtzee(score.ToString());
+                    break;
+                case ScoreOptions.chance:
+                    _currentPlayer.ScoreBoard.setChance(score.ToString());
+                    break;
+
+            }
         }
 
 
@@ -139,6 +190,90 @@ namespace YahtzeeConsole.Controller
             return dice;
         }
 
-    }
+        public Dictionary<ScoreOptions, int> GetPossibleScores()
+        {
+            Dictionary<ScoreOptions, int> possibleScores = new Dictionary<ScoreOptions, int>();
+            dice.Sort();
 
+            //The basic ones: Ones-Sixes
+            for (int i = 1; i <= 6; i++)
+            {
+                ScoreOptions scoreOption = (ScoreOptions)(i - 1);
+                possibleScores[scoreOption] = dice.Count(dice => dice == i) * i;
+            }
+
+            //Three of a Kind
+            if(HasCount(3))
+            {
+                possibleScores[ScoreOptions.three_of_a_kind] = dice.Sum();
+            }
+            //Four of a Kind
+            if(HasCount(4))
+            {
+                possibleScores[ScoreOptions.four_of_a_kind] = dice.Sum();
+            }
+            //Full House
+            if (IsFullHouse())
+            {
+                possibleScores[ScoreOptions.full_house] = 25;
+            }
+
+            //Small Straight
+            if(IsStraight(4))
+            {
+                possibleScores[ScoreOptions.small_straight] = 30;
+            }
+            //Large Straight
+            if(IsStraight(5))
+            {
+                possibleScores[ScoreOptions.large_straight] = 40;
+            }
+            
+            //Yahtzee
+            if(HasCount(5))
+            {
+                possibleScores[ScoreOptions.yahtzee] = 50;
+            }
+
+            //Chance
+            possibleScores[ScoreOptions.chance] = dice.Sum();
+
+            return possibleScores;
+        }
+
+        //Helper methods for the Possible Score Options
+        private bool HasCount(int count)
+        {
+            return dice.GroupBy(dice => dice).Any(g => g.Count() >= count);
+        }
+        private bool IsFullHouse()
+        {
+            var groups = dice.GroupBy(dice => dice).ToList();
+            //Checks to see if there are 2 groups
+            //Then checks if those groups have 3 values and 2 values to make up a full house
+            return groups.Count == 2 && groups.Any(g => g.Count() == 3) && groups.Any(g => g.Count() == 2);
+        }
+        private bool IsStraight(int length)
+        {
+            var distinctDice = dice.Distinct().ToList();
+            distinctDice.Sort();
+
+            if (distinctDice.Count < length) return false;
+
+            for(int i = 0; i <= distinctDice.Count - length; i++)
+            {
+                bool isStraight = true;
+                for(int j = 1; j <length; j++)
+                {
+                    if (distinctDice[i + j] != distinctDice[i + j - 1] + 1)
+                    {
+                        isStraight = false;
+                        break;
+                    }
+                }
+                if (isStraight) return true;
+            }
+            return false;
+        }
+    }
 }

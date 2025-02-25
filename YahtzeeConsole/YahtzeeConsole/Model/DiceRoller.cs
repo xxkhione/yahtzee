@@ -10,12 +10,13 @@ namespace YahtzeeConsole.Model
     {
         private const int min = 1;
         private const int max = 6;
+        public static readonly Random random = new Random();
+
         public static List<int> RollDice(int numberOfRolls)
         {
             List<int> diceRolls = new List<int>();
             for (int i = 0; i < numberOfRolls; i++)
             {
-                Random random = new Random();
                 diceRolls.Add(random.Next(min, max + 1));
             }
             return diceRolls;
@@ -26,7 +27,6 @@ namespace YahtzeeConsole.Model
             List<int> diceRolls = new List<int>();
             for (int i = 0; i < numberOfRolls; i++)
             {
-                Random random = new Random();
                 diceRolls.Add(random.Next(min, max + 1));
             }
             return diceRolls;

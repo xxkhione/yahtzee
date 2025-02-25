@@ -18,11 +18,11 @@ namespace YahtzeeConsole.Model
 
             for(int i = 0; i < TopSection.Length; i++)
             {
-                TopSection[i] = "--"; //Placeholders
+                TopSection[i] = "00";
             }
             for (int i = 0; i < BottomSection.Length; i++)
             {
-                BottomSection[i] = "--"; //Placeholders
+                BottomSection[i] = "00";
             }
         }
 

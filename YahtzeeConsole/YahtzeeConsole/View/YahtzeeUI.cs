@@ -169,5 +169,30 @@ namespace YahtzeeConsole.View
                 Console.WriteLine("Invalid selection. Please try again.");
             }
         }
+
+        public static ScoreOptions GetScoreType(List<ScoreOptions> playerScoreOptions)
+        {
+
+            while (true)
+            {
+                Console.WriteLine("Select a score option:");
+
+                for (int i = 0; i < playerScoreOptions.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {playerScoreOptions[i]}");
+                }
+
+                Console.Write("Enter the number of your choice: ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int selectedIndex) &&
+                    selectedIndex > 0 && selectedIndex <= playerScoreOptions.Count)
+                {
+                    return playerScoreOptions[selectedIndex - 1];
+                }
+
+                Console.WriteLine("Invalid selection. Please try again.");
+            }
+        }
     }
 }

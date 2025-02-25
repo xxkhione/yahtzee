@@ -85,16 +85,16 @@ namespace YahtzeeConsole.Controller
             DiceFaceUI.printDiceFace(dice);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Dictionary<ScoreOptions, int> possibleScores = GetPossibleScores();
-            Dictionary<ScoreOptions, int> availableScores = new Dictionary<ScoreOptions, int>();
-            foreach(var kvp in possibleScores)
-            {
-                if (_currentPlayer.PlayerScoreOptions.Contains(kvp.Key))
-                {
-                    availableScores.Add(kvp.Key, kvp.Value);
-                }
-            }
+            //Dictionary<ScoreOptions, int> availableScores = new Dictionary<ScoreOptions, int>();
+            //foreach(var kvp in possibleScores)
+            //{
+            //    if (_currentPlayer.PlayerScoreOptions.Contains(kvp.Key))
+            //    {
+            //        availableScores.Add(kvp.Key, kvp.Value);
+            //    }
+            //}
 
-            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(availableScores);
+            ScoreOptions scoreOption = YahtzeeUI.GetScoreType(_currentPlayer.PlayerScoreOptions);
             UpdateScoreBoard(possibleScores, scoreOption);
             _currentPlayer.PlayerScoreOptions.Remove(scoreOption);
 
@@ -205,6 +205,11 @@ namespace YahtzeeConsole.Controller
         {
             Dictionary<ScoreOptions, int> possibleScores = new Dictionary<ScoreOptions, int>();
             dice.Sort();
+
+            foreach (ScoreOptions option in Enum.GetValues(typeof(ScoreOptions)))
+            {
+                possibleScores[option] = 0;
+            }
 
             //The basic ones: Ones-Sixes
             for (int i = 1; i <= 6; i++)

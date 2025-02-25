@@ -38,6 +38,8 @@ namespace YahtzeeConsole.Controller
             {
                 for( int i = 0; i < totalPlayers; i++) {
                     _currentPlayer = (Player)_players[i];
+                    int finalScore = _currentPlayer.ScoreBoard.calculateFinalScore();
+                    _currentPlayer.Score = finalScore;
                     YahtzeeUI.FinalScore(_currentPlayer.Score, i);
                 }
                 // TODO: add final score display here
